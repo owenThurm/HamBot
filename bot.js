@@ -1,12 +1,15 @@
 const { Discord, MessageEmbed, Client } = require('discord.js');
 const client = new Client();
 
+const { TOKEN } = Process.env;
+
 client.on('ready', () => {
   console.log('HamBot activated...');
 });
 
 client.on('message', msg => {
   console.log(typeof msg);
+  console.log(TOKEN);
   console.log(msg);
   var messageString = msg.content;
   var messageID = msg.author.id;
@@ -18,5 +21,5 @@ client.on('message', msg => {
   }
 });
 
-client.login('Nzc5MTYwMDEyMTY4ODg4MzUy.X7cfTg.VFeMSpRlRc43KdG5PA-cEOOB8Eo');
+client.login(TOKEN);
 
