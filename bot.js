@@ -14,6 +14,18 @@ const hamImages = [
   'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRY8fk4IKv_bRQeaKQpyYw9WjQxN9JSb6QikQ&usqp=CAU'
 ];
 
+const pusheenImages = [
+  'https://pusheen.com/wp-content/uploads/2020/09/Preview-Image.jpg',
+  'https://i.pinimg.com/originals/4b/94/94/4b949483527c5d6793318346ec327b2f.jpg',
+  'https://pusheen.com/wp-content/uploads/2019/01/pusheen-kind.jpg',
+  'https://images-na.ssl-images-amazon.com/images/I/61tFQCSffML._AC_SY879_.jpg',
+  'https://images-na.ssl-images-amazon.com/images/I/61cHmlICeIL._AC_SL1500_.jpg',
+  'https://catingtonpost.com/wp-content/uploads/2017/08/457e2d35-4fd2-40dd-83da-cde9cadccdef.gif',
+  'https://prodimage.images-bn.com/pimages/0889560375304_p0_v1_s550x406.jpg',
+  'https://stickershop.line-scdn.net/stickershop/v1/product/1533271/LINEStorePC/main.png;compress=true',
+  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSfsojaoHp7rCV-jXJjpg1bEekxG1ebfrQS-A&usqp=CAU'
+];
+
 client.on('ready', () => {
   console.log('HamBot activated...');
 });
@@ -33,6 +45,12 @@ client.on('message', msg => {
       var hamImage = hamImages[Math.floor(Math.random() * 5)]
       var embed = new MessageEmbed().setImage(hamImage);
       console.log('ham: ->>>>>>>' + hamImage);
+      msg.channel.send(embed);
+    }
+    
+    if(message.includes('pusheen')) {
+      var pusheenImage = pusheenImages[Math.floor(Math.random() * 9)]
+      var embed = new MessageEmbed().setImage(pusheenImage);
       msg.channel.send(embed);
     }
 
