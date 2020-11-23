@@ -69,7 +69,7 @@ client.on('message', msg => {
     }
 
     if(message.includes('-help')) {
-      msg.channel.send("```Commands:\n1. 'ham' -> HAM!\n2. 'joke' -> get a random joke```");
+      msg.channel.send("```Commands:\n1. 'ham' -> HAM!\n2. 'joke' -> get a random joke\n3. 'pusheen' -> get a cute image```");
     }
 
   }
