@@ -68,8 +68,45 @@ client.on('message', msg => {
       });
     }
 
+    if(message.includes('meme')) {
+      axios({
+        'method': 'GET',
+        'url': 'https://meme-api.herokuapp.com/gimme',
+      }).then(response => {
+        var embed = new MessageEmbed().setImage(response.data.url)
+        msg.channel.send(embed);
+      }).catch(err => {
+        console.log(err);
+      });
+    }
+
+    if(message.includes('pug')) {
+      axios({
+        'method': 'GET',
+        'url': 'https://dog.ceo/api/breed/pug/images/random',
+      }).then(response => {
+        var embed = new MessageEmbed().setImage(response.data.message)
+        msg.channel.send(embed);
+      }).catch(err => {
+        console.log(err);
+      });
+    }
+
+    if(message.includes('golden')) {
+      axios({
+        'method': 'GET',
+        'url': 'https://dog.ceo/api/breed/retriever/golden/images/random',
+      }).then(response => {
+        var embed = new MessageEmbed().setImage(response.data.message)
+        msg.channel.send(embed);
+      }).catch(err => {
+        console.log(err);
+      });
+    }
+
     if(message.includes('-help')) {
-      msg.channel.send("```Commands:\n1. 'ham' -> HAM!\n2. 'joke' -> get a random joke\n3. 'pusheen' -> get a cute image```");
+      msg.channel.send("```Commands:\n1. 'ham' -> HAM!\n2. 'joke' -> get a random joke\n3. 'pusheen' -> get a cute image\n4. 'meme' -> get a meme"
+          + "\n5. 'pug' -> get a pug\n6. 'golden' -> get a golden retriever```");
     }
 
   }
