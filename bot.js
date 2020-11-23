@@ -3,6 +3,7 @@ const client = new Client();
 const axios = require('axios');
 require('dotenv').config()
 const TOKEN = process.env.TOKEN;
+var humanMode = false;
 
 const hamImages = [
   'https://amindfullmom.com/wp-content/uploads/2020/03/Holiday-Ham-500x500.jpg',
@@ -29,82 +30,112 @@ client.on('ready', () => {
 });
 
 client.on('message', msg => {
-  console.log(typeof msg);
-  console.log(TOKEN);
-  console.log(msg);
   var messageString = msg.content;
   var messageID = msg.author.id;
-  console.log(messageString);
+  console.log(msg.author.username + ': ' + messageString);
 
   if(messageID != '779160012168888352') {
+
     var message = messageString.toLowerCase()
 
-    if(message.includes('ham')) {
-      var hamImage = hamImages[Math.floor(Math.random() * 5)]
-      var embed = new MessageEmbed().setImage(hamImage);
-      console.log('ham: ->>>>>>>' + hamImage);
-      msg.channel.send(embed);
-    }
+    if(!humanMode) {
 
-    if(message.includes('pusheen')) {
-      var pusheenImage = pusheenImages[Math.floor(Math.random() * 9)]
-      var embed = new MessageEmbed().setImage(pusheenImage);
-      msg.channel.send(embed);
-    }
-
-    if(message.includes('joke')) {
-      axios({
-        'method': 'GET',
-        'url': 'https://joke3.p.rapidapi.com/v1/joke',
-        'headers': {
-          'x-rapidapi-key': '9be102c92dmsh190ac2792aa9da3p111139jsn765a575a921c'
-        }
-      }).then(response => {
-        msg.channel.send(response.data.content);
-      }).catch(err => {
-        console.log(err);
-      });
-    }
-
-    if(message.includes('meme')) {
-      axios({
-        'method': 'GET',
-        'url': 'https://meme-api.herokuapp.com/gimme',
-      }).then(response => {
-        var embed = new MessageEmbed().setImage(response.data.url)
+      if(message.includes('ham')) {
+        var hamImage = hamImages[Math.floor(Math.random() * 5)]
+        var embed = new MessageEmbed().setImage(hamImage);
+        console.log('ham: ->>>>>>>' + hamImage);
         msg.channel.send(embed);
-      }).catch(err => {
-        console.log(err);
-      });
-    }
+      }
 
-    if(message.includes('pug')) {
-      axios({
-        'method': 'GET',
-        'url': 'https://dog.ceo/api/breed/pug/images/random',
-      }).then(response => {
-        var embed = new MessageEmbed().setImage(response.data.message)
+      if(message.includes('pusheen')) {
+        var pusheenImage = pusheenImages[Math.floor(Math.random() * 9)]
+        var embed = new MessageEmbed().setImage(pusheenImage);
         msg.channel.send(embed);
-      }).catch(err => {
-        console.log(err);
-      });
-    }
+      }
 
-    if(message.includes('golden')) {
-      axios({
-        'method': 'GET',
-        'url': 'https://dog.ceo/api/breed/retriever/golden/images/random',
-      }).then(response => {
-        var embed = new MessageEmbed().setImage(response.data.message)
-        msg.channel.send(embed);
-      }).catch(err => {
-        console.log(err);
-      });
+      if(message.includes('advice')) {
+        axios.get('https://api.adviceslip.com/advice').then(response => {
+          console.log(response);
+          msg.channel.send(response.data.slip.advice + ' \n \t - HamBot Wisdom #' + response.data.slip.id);
+        });
+      }
+
+      if(message.includes('joke')) {
+        axios({
+          'method': 'GET',
+          'url': 'https://joke3.p.rapidapi.com/v1/joke',
+          'headers': {
+            'x-rapidapi-key': '9be102c92dmsh190ac2792aa9da3p111139jsn765a575a921c'
+          }
+        }).then(response => {
+          msg.channel.send(response.data.content);
+        }).catch(err => {
+          console.log(err);
+        });
+      }
+
+      if(message.includes('meme')) {
+        axios({
+          'method': 'GET',
+          'url': 'https://meme-api.herokuapp.com/gimme',
+        }).then(response => {
+          var embed = new MessageEmbed().setImage(response.data.url)
+          msg.channel.send(embed);
+        }).catch(err => {
+          console.log(err);
+        });
+      }
+
+      if(message.includes('pug')) {
+        axios({
+          'method': 'GET',
+          'url': 'https://dog.ceo/api/breed/pug/images/random',
+        }).then(response => {
+          var embed = new MessageEmbed().setImage(response.data.message)
+          msg.channel.send(embed);
+        }).catch(err => {
+          console.log(err);
+        });
+      }
+
+      if(message.includes('golden')) {
+        axios({
+          'method': 'GET',
+          'url': 'https://dog.ceo/api/breed/retriever/golden/images/random',
+        }).then(response => {
+          var embed = new MessageEmbed().setImage(response.data.message)
+          msg.channel.send(embed);
+        }).catch(err => {
+          console.log(err);
+        });
+      }
+
+      if(message.includes('-human on')) {
+        msg.channel.send('DANGER!:\n\nHuman Mode Activated...');
+        humanMode = true;
+      }
+    } else {
+
+      if(message.includes('-human off')) {
+        humanMode = false;
+        msg.channel.send('Human Mode Deactivated...');
+      } else {
+        axios.post('http://localhost:5000/humanresponse').then(response => {
+
+          msg.channel.send(response.data.msg)
+        }).catch(err => {
+          console.log(err);
+        })
+      }
+
+
+
     }
 
     if(message.includes('-help')) {
       msg.channel.send("```Commands:\n1. 'ham' -> HAM!\n2. 'joke' -> get a random joke\n3. 'pusheen' -> get a cute image\n4. 'meme' -> get a meme"
-          + "\n5. 'pug' -> get a pug\n6. 'golden' -> get a golden retriever```");
+          + "\n5. 'pug' -> get a pug\n6. 'golden' -> get a golden retriever\n7. 'advice' -> get some HamBot wisdom"
+          + "\n8. -human on/off -> AI Conversation Mode```");
     }
 
   }
