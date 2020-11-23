@@ -1,10 +1,8 @@
 const { Discord, MessageEmbed, Client } = require('discord.js');
 const client = new Client();
-const dotenv = require('dotenv');
 const axios = require('axios');
-
+require('dotenv').config()
 const TOKEN = process.env.TOKEN;
-console.log(TOKEN);
 
 const hamImages = [
   'https://amindfullmom.com/wp-content/uploads/2020/03/Holiday-Ham-500x500.jpg',
@@ -47,7 +45,7 @@ client.on('message', msg => {
       console.log('ham: ->>>>>>>' + hamImage);
       msg.channel.send(embed);
     }
-    
+
     if(message.includes('pusheen')) {
       var pusheenImage = pusheenImages[Math.floor(Math.random() * 9)]
       var embed = new MessageEmbed().setImage(pusheenImage);
@@ -113,5 +111,5 @@ client.on('message', msg => {
 
 });
 
-client.login('');
+client.login(TOKEN);
 
